@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>TourCode</web>
+  <name>StepsListing</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>TourCode.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1443707476000</creationDate>
+  <date>1445246425000</date>
+  <contentUpdateDate>1445245730000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+#set($vdoc = $doc)
+#if ($BSTDocRef)
+   #set($vdoc = $xwiki.getDocument($BSTDocRef))
+#end
+#set($steps = $vdoc.getObjects("TourCode.StepClass"))
+#set($nbsteps = 0)
+&lt;table id="stepsTable"&gt;
+   &lt;tr id="stepsTableH"&gt;
+      &lt;th&gt;Order&lt;/th&gt;
+      &lt;th&gt;Element&lt;/th&gt;
+      &lt;th&gt;Title&lt;/th&gt;
+      &lt;th&gt;backdrop&lt;/th&gt;
+      &lt;th&gt;Placement&lt;/th&gt;
+      #if ($context.display == 'edit' || $BSTDocRef)
+         &lt;th style="text-align:right"&gt;Actions&lt;/th&gt;
+      #end
+   &lt;/tr&gt;
+   #if ($steps)
+      #set($nbsteps = $steps.size())
+      #set($x = 0)
+      #foreach($step in $steps)
+         &lt;tr #if($x%2 != 0) class="tr1" #end&gt;
+            &lt;td&gt;$!mathtool.add($!step.getValue("order"),1)&lt;/td&gt;
+            &lt;td&gt;$!step.getValue("element")&lt;/td&gt;
+            &lt;td&gt;$!step.getValue("title")&lt;/td&gt;
+            &lt;td&gt;
+               #if($step.getValue("backdrop") == 0)
+                  No 
+               #else
+                  Yes 
+               #end
+            &lt;/td&gt;
+            &lt;td&gt;
+               $step.getValue("placement")
+            &lt;/td&gt;
+            #if ($context.display == 'edit' || $BSTDocRef)
+               &lt;td&gt;
+                  &lt;a href="javascript:;" class="actionBtn editItemBtn editStep" rel="$!step.getValue("order")" title="Edit step"&gt;Edit&lt;/a&gt;
+                  &lt;a href="javascript:;" class="actionBtn deleteItemBtn deleteStep" rel="$!step.getValue("order")" title="Delete step"&gt;Delete&lt;/a&gt;
+               &lt;/td&gt;
+            #end
+         &lt;/tr&gt;
+         #set($x = $x + 1)       
+      #end
+   #end
+&lt;/table&gt;
+&lt;input type="hidden" value="$nbsteps" id="nbsteps"/&gt;
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

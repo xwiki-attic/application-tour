@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>TourCode</web>
+  <name>AjaxActions</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1443708279000</creationDate>
+  <date>1445246463000</date>
+  <contentUpdateDate>1445246463000</contentUpdateDate>
+  <version>1.1</version>
+  <title>AjaxActions</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+#**
+* Ajax Actions
+*
+* Author: Mohamed BOUSSAA &lt;mohamed.boussa@xwiki.com&gt; 
+*#
+
+#set($action = $request.getParameter("action"))
+#if ("$!action" != '')
+#if ($action == "editStep" &amp;&amp; "$!request.getParameter('BSTDocRef')" != '')
+  #set($docRef = $request.getParameter("BSTDocRef"))
+  #if ("$!docRef" != '')
+     #set($bootstrapTourDoc = $xwiki.getDocument($docRef))
+     #if ($bootstrapTourDoc)
+        ## Save step
+        #set($title = $request.getParameter("title"))
+        #set($path = $request.getParameter("path"))
+        #set($element = $request.getParameter("element"))
+        #set($backdrop = $request.getParameter("backdrop"))
+        #set($content = $request.getParameter("content"))
+        #set($placement = $request.getParameter("placement"))
+        #set($nbSteps = $request.getParameter("nbSteps"))
+        #set($stepOrder = $request.getParameter("stepOrder"))
+        #set($isNewStep = true)
+        #if ("$!stepOrder" != '') ## Edit
+            #set($stepObj = $bootstrapTourDoc.getObject('TourCode.StepClass','order',$stepOrder))
+            #if($stepObj)
+               #set($isNewStep = false)                
+            #end
+        #end
+        #if ($isNewStep)
+           ## New step
+           #set($stepObj = $bootstrapTourDoc.newObject('TourCode.StepClass'))
+        #end
+        #set($discard = $stepObj.set('path', $path))
+        #set($discard = $stepObj.set('element', $element))
+        #set($discard = $stepObj.set('title', $title))
+        #set($discard = $stepObj.set('placement', $placement))
+        #set($discard = $stepObj.set('backdrop', $backdrop))
+        #set($discard = $stepObj.set('content', $content))
+        #if($isNewStep)
+           #set($discard = $stepObj.set('order', $nbSteps))
+        #end
+        ## Add the javascriptExtention object that contains the Bootstrap tour js code call
+        #set($jseObj = $bootstrapTourDoc.getObject('XWiki.JavaScriptExtension'))
+        #if (!$jseObj)
+           ## Create the object
+           #set($jseObj = $bootstrapTourDoc.newObject('XWiki.JavaScriptExtension'))
+           #set($discard = $jseObj.set('name', 'BootstraptTour js call'))
+           #set($discard = $jseObj.set('code', $xwiki.getDocument("TourCode.BSTCall").getContent()))
+           #set($discard = $jseObj.set('use', 'onDemand'))
+           #set($discard = $jseObj.set('parse', 1))
+           #set($discard = $jseObj.set('cache', 'long'))
+        #end
+        ## Add the styleSheet object that contains the Bootstrap tour CSS code call
+        #set($sseObj = $bootstrapTourDoc.getObject('XWiki.StyleSheetExtension'))
+        #if (!$sseObj)
+           ## Create the object
+           #set($sseObj = $bootstrapTourDoc.newObject('XWiki.StyleSheetExtension'))
+           #set($discard = "$sseObj.set('name', 'BootstraptTour css call')")
+           #set($cssURL = '$xwiki.getURL("TourCode.BootstrapTourPlugin", "ssx")')
+           #set($discard = $sseObj.set('code', "@import '$cssURL'"))
+           #set($discard = $sseObj.set('use', 'currentPage'))
+           #set($discard = $sseObj.set('parse', 1))
+           #set($discard = $sseObj.set('cache', 'long'))
+        #end
+        #set($discard = $bootstrapTourDoc.save())
+        #set($BSTDocRef = $bootstrapTourDoc)
+        #includeForm("TourCode.StepsListing")
+    #end
+  #end
+#elseif ($action == "deleteStep" &amp;&amp; "$!request.getParameter('BSTDocRef')" != '' &amp;&amp; "$!request.getParameter('stepOrder')" != '')
+   #set($docRef = $request.getParameter('BSTDocRef'))
+   #set($stepOrder =  $mathtool.toInteger($request.getParameter('stepOrder')))
+   #if ($xwiki.exists($docRef))
+      #set($bootstrapTourDoc = $xwiki.getDocument($docRef))
+      #set($stepObj = $bootstrapTourDoc.getObject("TourCode.StepClass", "order", $stepOrder))
+      #if ($stepObj)
+         #set($discard = $bootstrapTourDoc.removeObject($stepObj))
+         #set($discard = $bootstrapTourDoc.saveAsAuthor())
+         ## Update other steps order
+         #set($stepsObjects = $bootstrapTourDoc.getObjects("TourCode.StepClass"))
+         #foreach($stepObj in $stepsObjects)
+            #if($mathtool.toInteger($stepObj.order) &gt; $stepOrder)
+               $stepObj.set("order", $mathtool.sub($mathtool.toInteger($stepObj.order), 1))
+            #end
+         #end
+         #set($discard = $bootstrapTourDoc.saveAsAuthor())
+      #end
+      #set($BSTDocRef = $docRef)
+      #includeForm("TourCode.StepsListing")
+   #end
+#end
+#end
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>
