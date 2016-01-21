@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,32 +19,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.1">
+<xwikidoc>
   <web>TourCode</web>
   <name>StepClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1432291446000</creationDate>
   <parent>XWiki.XWikiClasses</parent>
+  <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1432291889000</date>
-  <contentUpdateDate>1432291889000</contentUpdateDate>
+  <creationDate>1444987333000</creationDate>
+  <date>1445243599000</date>
+  <contentUpdateDate>1445243599000</contentUpdateDate>
   <version>1.1</version>
   <title>Step Class</title>
+  <defaultTemplate/>
+  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>true</hidden>
-  <content>{{velocity}}
-## Replace the default space with the space where you want your documents to be created.
-## Replace the default parent with the one of your choice and save the document.
-##
-#set($defaultSpace = 'TourCode')
-#set($defaultParent = 'TourCode.WebHome')
-{{/velocity}}</content>
+  <hidden>false</hidden>
   <class>
     <name>TourCode.StepClass</name>
     <customClass/>
@@ -55,14 +50,28 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
+    <backdrop>
+      <customDisplay/>
+      <defaultValue>0</defaultValue>
+      <disabled>0</disabled>
+      <displayFormType>checkbox</displayFormType>
+      <displayType/>
+      <name>backdrop</name>
+      <number>4</number>
+      <prettyName>Backdrop</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </backdrop>
     <content>
       <customDisplay/>
       <disabled>0</disabled>
-      <editor>---</editor>
+      <editor>Text</editor>
       <name>content</name>
-      <number>3</number>
+      <number>5</number>
       <picker>0</picker>
-      <prettyName>content</prettyName>
+      <prettyName>Content</prettyName>
       <rows>5</rows>
       <size>40</size>
       <unmodifiable>0</unmodifiable>
@@ -74,9 +83,9 @@
       <customDisplay/>
       <disabled>0</disabled>
       <name>element</name>
-      <number>1</number>
+      <number>2</number>
       <picker>0</picker>
-      <prettyName>element</prettyName>
+      <prettyName>Element</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
@@ -87,8 +96,8 @@
       <customDisplay/>
       <disabled>0</disabled>
       <name>order</name>
-      <number>5</number>
-      <numberType>long</numberType>
+      <number>6</number>
+      <numberType>integer</numberType>
       <prettyName>order</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
@@ -97,25 +106,33 @@
       <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
     </order>
     <placement>
+      <cache>0</cache>
       <customDisplay/>
       <disabled>0</disabled>
+      <displayType>select</displayType>
+      <multiSelect>0</multiSelect>
       <name>placement</name>
-      <number>4</number>
+      <number>6</number>
       <picker>0</picker>
       <prettyName>placement</prettyName>
-      <size>30</size>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators>|, </separators>
+      <size>1</size>
+      <sort>none</sort>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      <values>right=Right|left=Left|top=Top|bottom=Bottom</values>
+      <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
     </placement>
     <title>
       <customDisplay/>
       <disabled>0</disabled>
       <name>title</name>
-      <number>2</number>
+      <number>3</number>
       <picker>0</picker>
-      <prettyName>title</prettyName>
+      <prettyName>Title</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
@@ -124,10 +141,38 @@
     </title>
   </class>
   <object>
+    <class>
+      <name>XWiki.ClassSheetBinding</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <sheet>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sheet</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Sheet</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </sheet>
+    </class>
     <name>TourCode.StepClass</name>
     <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>ca63fe97-4349-4368-b472-14d3a01c8832</guid>
+    <className>XWiki.ClassSheetBinding</className>
+    <guid>f9f2e27f-eccf-4299-b935-e4afdaaa6365</guid>
+    <property>
+      <sheet>StepSheet</sheet>
+    </property>
+  </object>
+  <object>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>
@@ -151,8 +196,19 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
+    <name>TourCode.StepClass</name>
+    <number>0</number>
+    <className>XWiki.DocumentSheetBinding</className>
+    <guid>acfc067f-9d79-4832-9bf8-35afc0ad5a78</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>
   </object>
+  <content>{{velocity}}
+## Replace the default space with the space where you want your documents to be created.
+## Replace the default parent with the one of your choice and save the document.
+##
+#set($defaultSpace = "BootstrapTour")
+#set($defaultParent = $doc.fullName)
+{{/velocity}}</content>
 </xwikidoc>

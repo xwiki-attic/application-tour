@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>TourCode</web>
+  <name>BSTCall</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>TourCode.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1444987440000</creationDate>
+  <date>1445246396000</date>
+  <contentUpdateDate>1445245934000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>requirejs.config({
+  paths: {
+    'bootstrap-tour': "$xwiki.getAttachmentURL('TourCode.BootstrapTourPlugin', 'bootstrap-tour.min')"
+  },
+    shim: {
+        'bootstrap-tour': {
+            deps: ['bootstrap', 'jquery'],
+            exports : 'Tour'
+            }
+          }
+});
+
+require(["bootstrap-tour", "jquery"], function(Tour, $){
+$(function(){
+#set($BSTObj = $doc.getObject("TourCode.BootstrapTourClass"))
+#set($steps = $doc.getObjects("TourCode.StepClass"))
+#if ($BSTObj &amp;&amp; $steps &amp;&amp; $steps.size() &gt; 0)
+  #set($storage = "window.localStorage")
+  #if ($BSTObj.getValue('storage') == 0)
+     #set($storage = false)
+  #end
+  var tour = new Tour({
+  name: "$BSTObj.getValue('title')",
+  container: "$BSTObj.getValue('container')",
+  keyboard: true,
+  storage: $storage,
+  debug: true,
+  backdrop: parseInt("$BSTObj.getValue('backdrop')"),
+  backdropPadding: 0,
+  redirect: true,
+  orphan: false,
+  duration: false,
+  delay: false,
+  basePath: "",
+  autoscroll: true,
+  template: "&lt;div class='popover tour'&gt;"+
+"  &lt;div class='arrow'&gt;&lt;/div&gt;"+
+"  &lt;h3 class='popover-title'&gt;&lt;/h3&gt;"+
+"  &lt;div class='popover-content'&gt;&lt;/div&gt;"+
+"  &lt;div class='popover-navigation'&gt;"+
+"    &lt;button class='btn btn-default' data-role='prev'&gt;« Prev&lt;/button&gt;"+
+"    &lt;span data-role='separator'&gt;&lt;/span&gt;"+
+"    &lt;button class='btn btn-default' data-role='next'&gt;Next »&lt;/button&gt;"+
+"    &lt;button class='btn btn-default' data-role='end'&gt;End tour&lt;/button&gt;"+
+"  &lt;/div&gt;"+
+"&lt;/div&gt;",
+steps: [
+    #foreach($step in $steps)
+       {
+        element: "$step.getValue('element')",
+        title: "$step.getValue('title')",
+        content: "$!escapetool.javascript($!step.getValue('content'))",
+        placement: "$step.getValue('placement')",
+        backdrop: parseInt("$step.getValue('backdrop')")
+        #if ($step.getValue('path') &amp;&amp; "$!step.getValue('path')" != '')
+           ,path: "$!step.getValue('path')"
+        #end
+       }
+       #if ($velocityCount &lt; $steps.size())
+        ,
+       #end
+    #end
+  ],
+  afterGetState: function (key, value) {},
+  afterSetState: function (key, value) {},
+  afterRemoveState: function (key, value) {},
+  onStart: function (tour) {},
+  onEnd: function (tour) {},
+  onShow: function (tour) {},
+  onShown: function (tour) {},
+  onHide: function (tour) {},
+  onHidden: function (tour) {},
+  onNext: function (tour) {},
+  onPrev: function (tour) {},
+  onPause: function (tour, duration) {},
+  onResume: function (tour, duration) {}
+});
+#if ($BSTObj.getValue('active') == 1)
+   // Initialize the tour
+   tour.init();
+   // Start the tour
+   tour.start(true);
+#end
+#end
+});
+});</content>
+</xwikidoc>
