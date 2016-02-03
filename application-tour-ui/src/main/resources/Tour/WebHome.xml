@@ -128,6 +128,38 @@
   <object>
     <name>Tour.WebHome</name>
     <number>0</number>
+    <className>XWiki.DocumentSheetBinding</className>
+    <guid>ba906080-3a19-454a-adf5-1d24a7df59ef</guid>
+    <class>
+      <name>XWiki.DocumentSheetBinding</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <sheet>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sheet</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Sheet</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </sheet>
+    </class>
+    <property>
+      <sheet>Tour.WebHomeSheet</sheet>
+    </property>
+  </object>
+  <object>
+    <name>Tour.WebHome</name>
+    <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>f9aece44-0fa5-42d9-b0ab-8cd3f09a051b</guid>
     <class>
