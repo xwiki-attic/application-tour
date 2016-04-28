@@ -253,7 +253,8 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
         onEnd   : function() { createResumeButton(tour, true) },
         onShown : addCloseButton,
         orphan  : true,
-        template: getTemplate
+        template: getTemplate,
+        path    : jsonData.path
       });
       
       // Create the steps
