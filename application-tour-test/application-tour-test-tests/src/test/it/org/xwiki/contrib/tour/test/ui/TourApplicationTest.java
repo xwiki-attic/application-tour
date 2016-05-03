@@ -146,9 +146,10 @@ public class TourApplicationTest extends AbstractTest
         assertFalse(homePage.hasEndButton());
 
         // Step 4
-        // Use a second page to test the Multipage feature
-        PageWithTour secondPage = PageWithTour.gotoPage("TourCode", "TourClass");
         homePage.nextStep();
+        // Use a second page to test the Multipage feature
+        PageWithTour secondPage = new PageWithTour();
+        assertTrue(secondPage.getUrl().endsWith("TourCode/TourClass"));
         assertEquals("Title 4", secondPage.getStepTitle());
         assertEquals("Step 4", secondPage.getStepDescription());
         assertFalse(secondPage.hasNextStep());
