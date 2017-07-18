@@ -239,7 +239,7 @@ require(['jquery'], function ($) {
                   targetPage  : (targetPage? targetPage: ''),
                   targetAction: (targetAction? targetAction: ''),
                   queryString : (queryString? queryString: ''),
-                  reflex      : (reflex? reflex: ''),
+                  reflex      : (reflex? reflex: 0),
                   stepOrder   : (stepOrder? stepOrder: ''),
                   tourName    : (tourName? tourName: ''),
                   nbSteps     : nbSteps,
