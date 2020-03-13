@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Tour.WebHome" locale="">
+<xwikidoc version="1.1">
   <web>Tour</web>
   <name>WebHome</name>
   <language/>
@@ -30,8 +31,8 @@
   <parent>xwiki:Main.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1584085336000</date>
-  <contentUpdateDate>1584025913000</contentUpdateDate>
+  <date>1432562536000</date>
+  <contentUpdateDate>1432560472000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('tour.app.name')</title>
   <comment/>
@@ -97,26 +98,13 @@
         <name>columns</name>
         <number>3</number>
         <picker>0</picker>
-        <prettyName>Live Table Columns</prettyName>
+        <prettyName>Columns</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </columns>
-      <dataSpace>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>dataSpace</name>
-        <number>4</number>
-        <picker>0</picker>
-        <prettyName>Data Location</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </dataSpace>
       <description>
         <customDisplay/>
         <disabled>0</disabled>
@@ -140,9 +128,6 @@
       <columns>doc.title isActive targetPage _actions</columns>
     </property>
     <property>
-      <dataSpace/>
-    </property>
-    <property>
       <description>This application provides the ability to create tours for any page.</description>
     </property>
   </object>
@@ -161,29 +146,17 @@
       <nameField/>
       <validationScript/>
       <sheet>
-        <cache>0</cache>
-        <classname/>
         <customDisplay/>
         <disabled>0</disabled>
-        <displayType>input</displayType>
-        <hint/>
-        <idField/>
-        <multiSelect>0</multiSelect>
         <name>sheet</name>
         <number>1</number>
-        <picker>1</picker>
+        <picker>0</picker>
         <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators/>
         <size>30</size>
-        <sort>none</sort>
-        <sql/>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
-        <valueField/>
-        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
     <property>
@@ -206,27 +179,22 @@
       <validationScript/>
       <cache>
         <cache>0</cache>
-        <defaultValue>long</defaultValue>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>cache</name>
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
-        <separators>|, </separators>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </cache>
       <code>
-        <contenttype>PureText</contenttype>
         <disabled>0</disabled>
-        <editor>PureText</editor>
         <name>code</name>
         <number>2</number>
         <prettyName>Code</prettyName>
@@ -258,15 +226,13 @@
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>use</name>
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
-        <separators>|, </separators>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage|onDemand|always</values>
@@ -342,7 +308,7 @@
       <use>currentPage</use>
     </property>
   </object>
-  <object>
+    <object>
     <name>Tour.WebHome</name>
     <number>0</number>
     <className>XWiki.StyleSheetExtension</className>
@@ -478,61 +444,20 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <async_cached>
-        <defaultValue>0</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType/>
-        <name>async_cached</name>
-        <number>3</number>
-        <prettyName>Cached</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </async_cached>
-      <async_context>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
-        <multiSelect>1</multiSelect>
-        <name>async_context</name>
-        <number>4</number>
-        <prettyName>Context elements</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <values>doc.reference=Document|icon.theme=Icon theme|locale=Language|rendering.defaultsyntax=Default syntax|rendering.restricted=Restricted|rendering.targetsyntax=Target syntax|request.base=Request base URL|request.parameters=Request parameters|request.url=Request URL|request.wiki=Request wiki|user=User|wiki=Wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </async_context>
-      <async_enabled>
-        <defaultValue>0</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType/>
-        <name>async_enabled</name>
-        <number>2</number>
-        <prettyName>Asynchronous rendering</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </async_enabled>
       <content>
         <disabled>0</disabled>
-        <editor>Text</editor>
         <name>content</name>
-        <number>1</number>
-        <prettyName>Executed Content</prettyName>
-        <rows>25</rows>
-        <size>120</size>
+        <number>3</number>
+        <prettyName>Extension Content</prettyName>
+        <rows>10</rows>
+        <size>40</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </content>
       <extensionPointId>
         <disabled>0</disabled>
         <name>extensionPointId</name>
-        <number>5</number>
+        <number>1</number>
         <prettyName>Extension Point ID</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
@@ -541,18 +466,16 @@
       <name>
         <disabled>0</disabled>
         <name>name</name>
-        <number>6</number>
+        <number>2</number>
         <prettyName>Extension ID</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
       <parameters>
-        <contenttype>PureText</contenttype>
         <disabled>0</disabled>
-        <editor>PureText</editor>
         <name>parameters</name>
-        <number>7</number>
+        <number>4</number>
         <prettyName>Extension Parameters</prettyName>
         <rows>10</rows>
         <size>40</size>
@@ -563,30 +486,19 @@
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>scope</name>
-        <number>8</number>
+        <number>5</number>
         <prettyName>Extension Scope</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
-        <separators>|, </separators>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>wiki=Current Wiki|user=Current User|global=Global</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </scope>
     </class>
-    <property>
-      <async_cached>0</async_cached>
-    </property>
-    <property>
-      <async_context/>
-    </property>
-    <property>
-      <async_enabled>0</async_enabled>
-    </property>
     <property>
       <content/>
     </property>
