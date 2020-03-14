@@ -562,10 +562,10 @@ if(typeof(XWiki) == 'undefined' || typeof(XWiki.widgets) == 'undefined' || typeo
    background: none no-repeat scroll 0 center transparent;
    display: block;
    padding: .3em .3em .3em 20px;
-   float:right;
+   float: right;
 }
 .tour-backdrop {
-   opacity: 0.5 ;
+   opacity: 0.5;
 } </code>
     </property>
     <property>
