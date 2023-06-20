@@ -217,21 +217,21 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
   var getTemplate = function (index, step) {
     var idPrefix = 'bootstrap_tour';
     var template = '&lt;div class="popover tour" style="min-width: 300px;"&gt;\n'
-                 + ' &lt;a class="btn btn-xs btn-default" id="'+idPrefix+'_close"&gt;$escapetool.javascript($services.icon.renderHTML("cross"))&lt;/a&gt;\n'
+                 + ' &lt;a class="btn btn-xs btn-default" href="#" id="'+idPrefix+'_close" aria-label="#tr("tour.popover.quit")" title="#tr("tour.popover.quit")"&gt;$escapetool.javascript($services.icon.renderHTML("cross"))&lt;/a&gt;\n'
                  + '  &lt;div class="arrow"&gt;&lt;/div&gt;\n'
                  + '  &lt;h3 class="popover-title"&gt;&lt;/h3&gt;\n'
                  + '  &lt;div class="popover-content"&gt;&lt;/div&gt;\n'
                  + '  &lt;div class="popover-navigation row"&gt;\n'
                  + '    &lt;div class="col-xs-6 text-left"&gt;\n';
     if (step.prev &gt; -1) {
-      template  += '      &lt;a class="btn btn-default btn-sm" id="'+idPrefix+'_prev"&gt;#tr("tour.popover.previous")&lt;/a&gt;\n';
+      template  += '      &lt;a class="btn btn-default btn-sm" href="#" id="'+idPrefix+'_prev"&gt;#tr("tour.popover.previous")&lt;/a&gt;\n';
     }
     template    += '    &lt;/div&gt;\n'
                  + '    &lt;div class="col-xs-6 text-right"&gt;\n';
     if (step.next &gt; -1) {
-      template  += '      &lt;a class="btn btn-primary btn-sm" id="'+idPrefix+'_next"&gt;#tr("tour.popover.next")&lt;/a&gt;\n';
+      template  += '      &lt;a class="btn btn-primary btn-sm" href="#" id="'+idPrefix+'_next"&gt;#tr("tour.popover.next")&lt;/a&gt;\n';
     } else {
-      template  += '      &lt;a class="btn btn-success btn-sm" id="'+idPrefix+'_end"&gt;#tr("tour.popover.end")&lt;/a&gt;\n'
+      template  += '      &lt;a class="btn btn-success btn-sm" href="#" id="'+idPrefix+'_end"&gt;#tr("tour.popover.end")&lt;/a&gt;\n'
     }
     template    += '    &lt;/div&gt;\n'
                  + '  &lt;/div&gt;'
@@ -249,10 +249,25 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       var prevButtonSelector = '#' + idPrefix + '_prev';
       var nextButtonSelector = '#' + idPrefix + '_next';
 
-      $(closeButtonSelector).on('click', function () { tour.end() });
-      $(endButtonSelector).on('click', function () { tour.end() });
-      $(prevButtonSelector).on('click', function () { tour.prev() });
-      $(nextButtonSelector).on('click', function () { tour.next() });
+    $(closeButtonSelector).on('click', function () {
+      tour.end()
+    }).on('blur', function (event) {
+      if (!event.relatedTarget || !event.currentTarget.parentNode.contains(event.relatedTarget)) {
+        $(nextButtonSelector + ', ' + endButtonSelector).focus();
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      }
+    });
+    $(endButtonSelector).on('click', function () { tour.end() });
+    $(prevButtonSelector).on('click', function () { tour.prev() });
+    // Wrap around in tab order when the popover is opened, and focus the 'Next' button when the tour step is opened.
+    $(nextButtonSelector + ', ' + endButtonSelector).on('blur', function (event) {
+      if (!event.relatedTarget || !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
+        $(closeButtonSelector).focus();
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      }
+    }).focus();
 
       $(closeButtonSelector).css('position','absolute');
       $(closeButtonSelector).css('top','3px');
@@ -280,6 +295,7 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
         onEnd   : function() { createResumeButton(tour, true) },
         onShown : onShown,
         orphan  : false,
+        container: "#contentcontainer",
         template: getTemplate
       });
 
