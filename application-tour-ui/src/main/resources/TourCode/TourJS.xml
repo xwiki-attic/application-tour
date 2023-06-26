@@ -168,21 +168,19 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
   /**
    * Add a resume button to start the tour again when it has been closed
    */
-  var createResumeButton = function (tour, createPopover) {
+  var createResumeButton = function (tour, showPopover) {
     // Create a container when the button will be displayed. This container will also contains the "popover", so the "popover" stay near the button when the page is resized.
     // (see http://getbootstrap.com/javascript/#popovers-options 'container')
     var buttonContainer = $('&lt;div id="tourResumeContainer" style="position: fixed; bottom: 0; right: 0; z-index: 2000; width: 300px; text-align: right;"&gt;&lt;/div&gt;').appendTo($(document.body));
+    // Create the popover
+    var popover = $('&lt;dialog class="popover"&gt;#tr("tour.popover.show.hint")&lt;/dialog&gt;').appendTo(buttonContainer);
     // Create the button that will start the tour again
     var button = $('&lt;button id="tourResume" class="btn btn-default btn-xs"&gt;$services.icon.renderHTML("info") #tr("tour.popover.show")&lt;/button&gt;').appendTo(buttonContainer);
-    // Create the popover
-    var popover = $('&lt;dialog class="popover-content"&gt;#tr("tour.popover.show.hint")&lt;/dialog&gt;').appendTo(buttonContainer);
 
-    buttonContainer.hide();
-    buttonContainer.fadeIn();
+    buttonContainer.addClass('opened');
     button.on('click', function() {
-      if (createPopover) {
-        popover.removeClass('opened');
-        button.popover('destroy');
+      if (showPopover) {
+        popover.removeAttr('open');
       }
 
       if (window.localStorage.getItem(tour._options.name + '_current_step') != tour._options.steps.length - 1) {
@@ -195,26 +193,8 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       } else {
         tour.restart();
       }
-      button.remove();
+      buttonContainer.removeClass('opened');
     });
-    var popoverContent = "#tr('tour.popover.show.hint')";
-    if (createPopover) {
-      // Add a popover to introduce that button
-      button.popover({
-        animation: true,
-        content: popoverContent,
-        placement: 'top',
-        container: '#tourResumeContainer'
-      });
-      // Show it
-      popover.addClass('opened');
-      button.popover('show');
-      // Hide it after 7 seconds
-      setTimeout(function() {
-        popover.removeClass('opened');
-        button.popover('destroy');
-      }, 7000);
-    }
   }
 
   /**
@@ -344,7 +324,24 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       var tour     = new Tour({
         name    : tourName,
         storage : window.localStorage,
-        onEnd   : function() { createResumeButton(tour, true) },
+        onEnd   : function() {
+          let buttonContainer = $('#tourResumeContainer');
+          if(buttonContainer.length === 0) {
+            createResumeButton(tour, true);
+          }
+          else {
+            buttonContainer.addClass('opened');
+            // Show the popover
+            let popover = buttonContainer.find('.popover').first();
+            popover.attr('open','open');
+            popover.show();
+            // Hide it after 7 seconds
+            setTimeout(function() {
+              popover.removeAttr('open');
+              popover.hide();
+            }, 7000);
+          }
+        },
         onShown : onShown,
         orphan  : false,
         container: "#contentcontainer",
@@ -416,6 +413,124 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     </property>
     <property>
       <name>Definition of a Bootstrap Tour module</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>always</use>
+    </property>
+  </object>
+<object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>6</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>TourCode.TourJS</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>4457314f-90d1-4678-af4c-399211bc3362</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#tourResumeContainer {
+  display: none;
+}
+
+#tourResumeContainer.opened {
+  display: flex;
+  flex-direction: column-reverse;
+}</code>
+    </property>
+    <property>
+      <contentType>LESS</contentType>
+    </property>
+    <property>
+      <name/>
     </property>
     <property>
       <parse>1</parse>
