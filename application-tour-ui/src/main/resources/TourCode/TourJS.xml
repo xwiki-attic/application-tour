@@ -174,10 +174,14 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     var buttonContainer = $('&lt;div id="tourResumeContainer" style="position: fixed; bottom: 0; right: 0; z-index: 2000; width: 300px; text-align: right;"&gt;&lt;/div&gt;').appendTo($(document.body));
     // Create the button that will start the tour again
     var button = $('&lt;button id="tourResume" class="btn btn-default btn-xs"&gt;$services.icon.renderHTML("info") #tr("tour.popover.show")&lt;/button&gt;').appendTo(buttonContainer);
+    // Create the popover
+    var popover = $('&lt;dialog class="popover-content"&gt;#tr("tour.popover.show.hint")&lt;/dialog&gt;').appendTo(buttonContainer);
+
     buttonContainer.hide();
     buttonContainer.fadeIn();
     button.on('click', function() {
       if (createPopover) {
+        popover.removeClass('opened');
         button.popover('destroy');
       }
 
@@ -203,9 +207,11 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
         container: '#tourResumeContainer'
       });
       // Show it
+      popover.addClass('opened');
       button.popover('show');
       // Hide it after 7 seconds
       setTimeout(function() {
+        popover.removeClass('opened');
         button.popover('destroy');
       }, 7000);
     }
@@ -249,31 +255,77 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       var prevButtonSelector = '#' + idPrefix + '_prev';
       var nextButtonSelector = '#' + idPrefix + '_next';
 
-    $(closeButtonSelector).on('click', function () {
-      tour.end()
-    }).on('blur', function (event) {
-      if (!event.relatedTarget || !event.currentTarget.parentNode.contains(event.relatedTarget)) {
-        $(nextButtonSelector + ', ' + endButtonSelector).focus();
+    $(closeButtonSelector)
+      .on('click', function () {
+        tour.end()
+      })
+      .on('keypress', function (event) {
+        if (event.which === 32 || event.which === 13) {
+          tour.end();
+        }
         event.stopImmediatePropagation();
         event.preventDefault();
-      }
-    });
-    $(endButtonSelector).on('click', function () { tour.end() });
-    $(prevButtonSelector).on('click', function () { tour.prev() });
-    // Wrap around in tab order when the popover is opened, and focus the 'Next' button when the tour step is opened.
-    $(nextButtonSelector + ', ' + endButtonSelector).on('blur', function (event) {
-      if (!event.relatedTarget || !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
-        $(closeButtonSelector).focus();
-        event.stopImmediatePropagation();
-        event.preventDefault();
-      }
-    }).focus();
+      })
+      .on('focusout', function (event) {
+        if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.contains(event.relatedTarget)) {
+          $(nextButtonSelector + ', ' + endButtonSelector).focus();
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      });
 
-      $(closeButtonSelector).css('position','absolute');
-      $(closeButtonSelector).css('top','3px');
-      $(closeButtonSelector).css('right','5px');
-      // Avoid having the close button on top of the title
-      $('.tour .popover-title').css('padding-right',  $(closeButtonSelector).outerWidth() + 10 + 'px');
+    $(endButtonSelector)
+      .on('click', function () { tour.end() })
+      .on('keypress', function (event) {
+        if (event.which === 32 || event.which === 13) {
+          tour.end();
+        }
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      });
+
+    $(prevButtonSelector)
+      .on('click', function () { tour.prev() })
+      .on('keypress', function (event) {
+        if (event.which === 32 || event.which === 13) {
+          tour.prev();
+        }
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      })
+      .on('focusout', function (event) {
+        if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
+          $(nextButtonSelector + ', ' + endButtonSelector).focus();
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      });
+
+    $(nextButtonSelector)
+      .on('keypress', function (event) {
+        if (event.which === 32 || event.which === 13) {
+          tour.next();
+        }
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      });
+
+    // Wrap around in tab order when the popover is opened, and focus the 'Next' button when the tour step is opened.
+    $(nextButtonSelector + ', ' + endButtonSelector)
+      .on('focusout', function (event) {
+        if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
+          $(closeButtonSelector).focus();
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      })
+      .focus();
+
+    $(closeButtonSelector).css('position','absolute');
+    $(closeButtonSelector).css('top','3px');
+    $(closeButtonSelector).css('right','5px');
+    // Avoid having the close button on top of the title
+    $('.tour .popover-title').css('padding-right',  $(closeButtonSelector).outerWidth() + 10 + 'px');
   }
 
   /**
