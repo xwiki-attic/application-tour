@@ -171,9 +171,9 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
   var createResumeButton = function (tour, showPopover) {
     // Create a container when the button will be displayed. This container will also contains the "popover", so the "popover" stay near the button when the page is resized.
     // (see http://getbootstrap.com/javascript/#popovers-options 'container')
-    var buttonContainer = $('&lt;div id="tourResumeContainer" style="position: fixed; bottom: 0; right: 0; z-index: 2000; width: 300px; text-align: right;"&gt;&lt;/div&gt;').appendTo($(document.body));
+    var buttonContainer = $('&lt;div id="tourResumeContainer"&gt;&lt;/div&gt;').appendTo($(document.body));
     // Create the popover
-    var popover = $('&lt;dialog class="popover"&gt;#tr("tour.popover.show.hint")&lt;/dialog&gt;').appendTo(buttonContainer);
+    var popover = $('&lt;div class="popover-content"&gt;#tr("tour.popover.show.hint")&lt;/div&gt;').appendTo(buttonContainer);
     // Create the button that will start the tour again
     var button = $('&lt;button id="tourResume" class="btn btn-default btn-xs"&gt;$services.icon.renderHTML("info") #tr("tour.popover.show")&lt;/button&gt;').appendTo(buttonContainer);
 
@@ -332,13 +332,12 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
           else {
             buttonContainer.addClass('opened');
             // Show the popover
-            let popover = buttonContainer.find('.popover').first();
+            let popover = buttonContainer.find('.popover-content').first();
             popover.attr('open','open');
-            popover.show();
             // Hide it after 7 seconds
             setTimeout(function() {
+              buttonContainer.removeClass('opened');
               popover.removeAttr('open');
-              popover.hide();
             }, 7000);
           }
         },
@@ -518,12 +517,57 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     </property>
     <property>
       <code>#tourResumeContainer {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-content: stretch;
+  gap: 1em;
+
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+
+  &amp; &gt; #tourResume {
+    width: fit-content;
+  }
+
+  &amp; &gt; .popover-content {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, visibility 0s 0.2s;
+    position: relative;
+    max-width: 276px;
+    padding: 1px;
+    line-break: auto;
+    text-align: left;
+    padding:0.5em;
+    background-color: @dropdown-bg;
+    border: solid 0.2em @dropdown-border;
+    border-radius: 1em 1em 0 1em;
+    width: 100%;
+
+    &amp;::after {
+      position:absolute;
+      right: 0em;
+      content: '';
+      bottom:-1em;
+      width: 0;
+      height: 0;
+      border-left: 1em solid transparent;
+      border-right: 1em solid transparent;
+      border-top: 1em solid @dropdown-bg;
+      clear: both;
+    }
+  }
 }
 
 #tourResumeContainer.opened {
-  display: flex;
-  flex-direction: column-reverse;
+  &amp; &gt; .popover-content {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
 }</code>
     </property>
     <property>
