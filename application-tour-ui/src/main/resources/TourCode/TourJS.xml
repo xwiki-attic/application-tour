@@ -177,10 +177,15 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     // Create the button that will start the tour again
     var button = $('&lt;button id="tourResume" class="btn btn-default btn-xs"&gt;$services.icon.renderHTML("info") #tr("tour.popover.show")&lt;/button&gt;').appendTo(buttonContainer);
 
-    buttonContainer.addClass('opened');
+    if (showPopover) {
+      buttonContainer.addClass('opened');
+      popover.attr('open','open');
+    }
+
     button.on('click', function() {
       if (showPopover) {
         popover.removeAttr('open');
+        buttonContainer.removeClass('opened');
       }
 
       if (window.localStorage.getItem(tour._options.name + '_current_step') != tour._options.steps.length - 1) {
