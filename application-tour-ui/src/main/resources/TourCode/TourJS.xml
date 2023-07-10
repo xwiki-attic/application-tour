@@ -203,21 +203,21 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
   var getTemplate = function (index, step) {
     var idPrefix = 'bootstrap_tour';
     var template = '&lt;div class="popover tour" style="min-width: 300px;"&gt;\n'
-                 + ' &lt;a class="btn btn-xs btn-default" href="javascript:void(0)" id="'+idPrefix+'_close" aria-label="#tr("tour.popover.quit")" title="#tr("tour.popover.quit")"&gt;$escapetool.javascript($services.icon.renderHTML("cross"))&lt;/a&gt;\n'
+                 + ' &lt;a class="btn btn-xs btn-default" href="#" id="'+idPrefix+'_close" aria-label="#tr("tour.popover.quit")" title="#tr("tour.popover.quit")"&gt;$escapetool.javascript($services.icon.renderHTML("cross"))&lt;/a&gt;\n'
                  + '  &lt;div class="arrow"&gt;&lt;/div&gt;\n'
-                 + '  &lt;h3 class="popover-title"&gt;&lt;/h3&gt;\n'
+                 + '  &lt;h2 class="popover-title"&gt;&lt;/h2&gt;\n'
                  + '  &lt;div class="popover-content"&gt;&lt;/div&gt;\n'
                  + '  &lt;div class="popover-navigation row"&gt;\n'
                  + '    &lt;div class="col-xs-6 text-left"&gt;\n';
     if (step.prev &gt; -1) {
-      template  += '      &lt;a class="btn btn-default btn-sm" href="javascript:void(0)" id="'+idPrefix+'_prev"&gt;#tr("tour.popover.previous")&lt;/a&gt;\n';
+      template  += '      &lt;a class="btn btn-default btn-sm" href="#" id="'+idPrefix+'_prev"&gt;#tr("tour.popover.previous")&lt;/a&gt;\n';
     }
     template    += '    &lt;/div&gt;\n'
                  + '    &lt;div class="col-xs-6 text-right"&gt;\n';
     if (step.next &gt; -1) {
-      template  += '      &lt;a class="btn btn-primary btn-sm" href="javascript:void(0)" id="'+idPrefix+'_next"&gt;#tr("tour.popover.next")&lt;/a&gt;\n';
+      template  += '      &lt;a class="btn btn-primary btn-sm" href="#" id="'+idPrefix+'_next"&gt;#tr("tour.popover.next")&lt;/a&gt;\n';
     } else {
-      template  += '      &lt;a class="btn btn-success btn-sm" href="javascript:void(0)" id="'+idPrefix+'_end"&gt;#tr("tour.popover.end")&lt;/a&gt;\n'
+      template  += '      &lt;a class="btn btn-success btn-sm" href="#" id="'+idPrefix+'_end"&gt;#tr("tour.popover.end")&lt;/a&gt;\n'
     }
     template    += '    &lt;/div&gt;\n'
                  + '  &lt;/div&gt;'
@@ -236,8 +236,9 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       var nextButtonSelector = '#' + idPrefix + '_next';
 
     $(closeButtonSelector)
-      .on('click', function () {
-        tour.end()
+      .on('click', function (event) {
+        tour.end();
+        event.preventDefault();
       })
       .on('keypress', function (event) {
         if (event.which === 32 || event.which === 13) {
@@ -255,7 +256,10 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       });
 
     $(endButtonSelector)
-      .on('click', function () { tour.end() })
+      .on('click', function (event) {
+        tour.end();
+        event.preventDefault();
+      })
       .on('keypress', function (event) {
         // Activate the anchor/button when space or enter are pressed down
         if (event.which === 32 || event.which === 13) {
@@ -266,7 +270,10 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       });
 
     $(prevButtonSelector)
-      .on('click', function () { tour.prev() })
+      .on('click', function (event) {
+        tour.prev();
+        event.preventDefault();
+      })
       .on('keypress', function (event) {
         // Activate the anchor/button when space or enter are pressed down
         if (event.which === 32 || event.which === 13) {
@@ -284,7 +291,10 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       });
 
     $(nextButtonSelector)
-      .on('click', function () { tour.next() })
+      .on('click', function (event) {
+        tour.next();
+        event.preventDefault();
+      })
       .on('keypress', function (event) {
         // Activate the anchor/button when space or enter are pressed down
         if (event.which === 32 || event.which === 13) {
