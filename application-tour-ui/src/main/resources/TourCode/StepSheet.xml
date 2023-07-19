@@ -564,7 +564,6 @@ if(typeof(XWiki) == 'undefined' || typeof(XWiki.widgets) == 'undefined' || typeo
    padding: .3em .3em .3em 20px;
    float: right;
 }
-
 .tour-backdrop {
    opacity: 0.5;
 } </code>
