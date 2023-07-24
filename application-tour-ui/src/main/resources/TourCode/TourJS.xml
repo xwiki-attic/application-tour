@@ -316,9 +316,6 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       })
       .focus();
 
-    $(closeButtonSelector).css('position','absolute');
-    $(closeButtonSelector).css('top','3px');
-    $(closeButtonSelector).css('right','5px');
     // Avoid having the close button on top of the title
     $('.tour .popover-title').css('padding-right',  $(closeButtonSelector).outerWidth() + 10 + 'px');
     $('.tour').on('keydown', function (event) {
@@ -592,7 +589,14 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
   }
-}</code>
+}
+
+#bootstrap_tour_close {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+}
+</code>
     </property>
     <property>
       <contentType>LESS</contentType>
