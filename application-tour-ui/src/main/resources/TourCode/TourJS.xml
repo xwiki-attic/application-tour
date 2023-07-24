@@ -255,8 +255,6 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       .on('focusout', function (event) {
         if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.contains(event.relatedTarget)) {
           $(nextButtonSelector + ', ' + endButtonSelector).focus();
-          event.stopImmediatePropagation();
-          event.preventDefault();
         }
       });
 
@@ -290,8 +288,6 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       .on('focusout', function (event) {
         if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
           $(nextButtonSelector + ', ' + endButtonSelector).focus();
-          event.stopImmediatePropagation();
-          event.preventDefault();
         }
       });
 
