@@ -568,7 +568,7 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     width: 100%;
 
     &amp;::after {
-      position:absolute;
+      position: absolute;
       right: 0em;
       content: '';
       bottom:-1em;
