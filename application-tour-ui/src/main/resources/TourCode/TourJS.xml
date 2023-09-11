@@ -347,7 +347,7 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
         storage : window.localStorage,
         onEnd   : function() {
           let buttonContainer = $('#tourResumeContainer');
-          if(buttonContainer.length === 0) {
+          if (buttonContainer.length === 0) {
             createResumeButton(tour, true);
           }
           else {
