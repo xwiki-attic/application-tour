@@ -349,8 +349,7 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
           let buttonContainer = $('#tourResumeContainer');
           if (buttonContainer.length === 0) {
             createResumeButton(tour, true);
-          }
-          else {
+          } else {
             buttonContainer.addClass('opened');
             // Show the popover
             let popover = buttonContainer.find('.popover-content').first();
