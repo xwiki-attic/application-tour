@@ -561,7 +561,7 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
     padding: 1px;
     line-break: auto;
     text-align: left;
-    padding:0.5em;
+    padding: 0.5em;
     background-color: @dropdown-bg;
     border: solid 0.2em @dropdown-border;
     border-radius: 1em 1em 0 1em;
