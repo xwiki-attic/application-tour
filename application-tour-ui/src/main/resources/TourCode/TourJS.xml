@@ -310,8 +310,6 @@ require(['jquery', 'xwiki-meta'], function ($, xm) {
       .on('focusout', function (event) {
         if (event.relatedTarget !== null &amp;&amp; !event.currentTarget.parentNode.parentNode.parentNode.contains(event.relatedTarget)) {
           $(closeButtonSelector).focus();
-          event.stopImmediatePropagation();
-          event.preventDefault();
         }
       })
       .focus();
