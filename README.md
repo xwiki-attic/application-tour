@@ -1,3 +1,6 @@
+> [!WARNING]  
+> The development of this application has moved to https://github.com/xwiki/xwiki-platform/tree/master/xwiki-platform-core/xwiki-platform-tour
+
 # Tour Application
 This application provides for the users a possibility to create bootstrap-tours for every page they want.
 
